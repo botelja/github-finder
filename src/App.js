@@ -3,6 +3,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Users from './components/Users';
 import axios from 'axios';
+import Search from './components/Search';
 
 class App extends Component {
   constructor() {
@@ -24,6 +25,7 @@ class App extends Component {
       <div className="App">
         <Navbar />
         <div className="container mt-4">
+          <Search />
           <Users users={users} loading={loading} />
         </div>
       </div>
