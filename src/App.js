@@ -19,12 +19,12 @@ class App extends Component {
     this.setState({ users: res.data, loading: false });
   }
   render() {
-    const { users } = this.state;
+    const { users, loading } = this.state;
     return (
       <div className="App">
         <Navbar />
         <div className="container mt-4">
-          <Users users={users} />
+          <Users users={users} loading={loading} />
         </div>
       </div>
     );
