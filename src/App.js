@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import './App.css';
 import Navbar from './components/Navbar';
 import Users from './components/Users';
-import axios from 'axios';
 import Search from './components/Search';
+import Alert from './components/Alert';
+import axios from 'axios';
+import './App.css';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       users: [],
-      loading: false
+      loading: false,
+      alert: null
     };
   }
 
@@ -27,16 +29,25 @@ class App extends Component {
     this.setState({ users: [], loading: false });
   };
 
+  handleAlert = (message, type) => {
+    this.setState({ alert: { message, type } });
+    setTimeout(() => {
+      this.setState({ alert: null });
+    }, 3000);
+  };
+
   render() {
-    const { users, loading } = this.state;
+    const { users, loading, alert } = this.state;
     return (
       <div className="App">
         <Navbar />
         <div className="container mt-4">
+          <Alert alert={alert} />
           <Search
             searchUsers={this.searchUsers}
             clearUsers={this.clearUsers}
             showClear={users.length > 0 ? true : false}
+            showAlert={this.handleAlert}
           />
           <Users users={users} loading={loading} />
         </div>

@@ -8,10 +8,15 @@ class Search extends Component {
       name: ''
     };
   }
+
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.searchUsers(this.state.name);
-    this.setState({ name: '' });
+    if (this.state.name === '') {
+      this.props.showAlert('Please enter some name', 'danger');
+    } else {
+      this.props.searchUsers(this.state.name);
+      this.setState({ name: '' });
+    }
   };
 
   handleChange = (e) => {
@@ -53,7 +58,8 @@ class Search extends Component {
 Search.propTypes = {
   searchUsers: PropTypes.func.isRequired,
   clearUsers: PropTypes.func.isRequired,
-  showClear: PropTypes.bool.isRequired
+  showClear: PropTypes.bool.isRequired,
+  showAlert: PropTypes.func.isRequired
 };
 
 export default Search;
