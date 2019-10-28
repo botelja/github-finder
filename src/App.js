@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Navbar from './components/Navbar';
 import Users from './components/Users';
 import Search from './components/Search';
 import Alert from './components/Alert';
+import About from './components/About';
+import { Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 
@@ -43,13 +45,24 @@ class App extends Component {
         <Navbar />
         <div className="container mt-4">
           <Alert alert={alert} />
-          <Search
-            searchUsers={this.searchUsers}
-            clearUsers={this.clearUsers}
-            showClear={users.length > 0 ? true : false}
-            showAlert={this.handleAlert}
-          />
-          <Users users={users} loading={loading} />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={(props) => (
+                <Fragment>
+                  <Search
+                    searchUsers={this.searchUsers}
+                    clearUsers={this.clearUsers}
+                    showClear={users.length > 0 ? true : false}
+                    showAlert={this.handleAlert}
+                  />
+                  <Users users={users} loading={loading} />
+                </Fragment>
+              )}
+            />
+            <Route exact path="/about" component={About} />
+          </Switch>
         </div>
       </div>
     );
