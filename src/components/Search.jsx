@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 
 class Search extends Component {
   constructor() {
@@ -19,26 +20,40 @@ class Search extends Component {
 
   render() {
     const { name } = this.state;
+    const { showClear, clearUsers } = this.props;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="form-group">
-          <input
-            type="text"
-            className="form-control"
-            id="name"
-            name="name"
-            value={name}
-            onChange={this.handleChange}
-            placeholder="Search name..."
-          />
-        </div>
+      <Fragment>
+        <form onSubmit={this.handleSubmit}>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              name="name"
+              value={name}
+              onChange={this.handleChange}
+              placeholder="Search name..."
+            />
+          </div>
 
-        <button type="submit" className="btn btn-dark btn-block">
-          Submit
-        </button>
-      </form>
+          <button type="submit" className="btn btn-dark btn-block">
+            Submit
+          </button>
+        </form>
+        {showClear && (
+          <button className="btn btn-light btn-block mt-2" onClick={clearUsers}>
+            Clear
+          </button>
+        )}
+      </Fragment>
     );
   }
 }
+
+Search.propTypes = {
+  searchUsers: PropTypes.func.isRequired,
+  clearUsers: PropTypes.func.isRequired,
+  showClear: PropTypes.bool.isRequired
+};
 
 export default Search;
