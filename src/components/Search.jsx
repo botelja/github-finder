@@ -9,7 +9,8 @@ class Search extends Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state.name);
+    this.props.searchUsers(this.state.name);
+    this.setState({ name: '' });
   };
 
   handleChange = (e) => {
