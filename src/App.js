@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import Navbar from './components/Navbar';
 import Users from './components/Users';
+import User from './components/User';
 import Search from './components/Search';
 import Alert from './components/Alert';
 import About from './components/About';
@@ -13,13 +14,16 @@ class App extends Component {
     super();
     this.state = {
       users: [],
+      user: {},
       loading: false,
       alert: null
     };
   }
 
+  // Search github users
   searchUsers = async (name) => {
     this.setState({ loading: true });
+
     const res = await axios.get(
       `https://api.github.com/search/users?q=${name}&client_id=${process.env.REACT_APP_GITHUB_CLINET_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLINET_SECRET}`
     );
@@ -27,10 +31,23 @@ class App extends Component {
     this.setState({ users: res.data.items, loading: false });
   };
 
+  //Get user
+  getUser = async (username) => {
+    this.setState({ loading: true });
+
+    const res = await axios.get(
+      `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLINET_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLINET_SECRET}`
+    );
+
+    this.setState({ user: res.data, loading: false });
+  };
+
+  // Clear users from state
   clearUsers = () => {
     this.setState({ users: [], loading: false });
   };
 
+  // Handle Alert box
   handleAlert = (message, type) => {
     this.setState({ alert: { message, type } });
     setTimeout(() => {
@@ -39,7 +56,7 @@ class App extends Component {
   };
 
   render() {
-    const { users, loading, alert } = this.state;
+    const { users, user, loading, alert } = this.state;
     return (
       <div className="App">
         <Navbar />
@@ -62,6 +79,18 @@ class App extends Component {
               )}
             />
             <Route exact path="/about" component={About} />
+            <Route
+              exact
+              path="/user/:login"
+              render={(props) => (
+                <User
+                  {...props}
+                  getUser={this.getUser}
+                  user={user}
+                  loading={loading}
+                />
+              )}
+            />
           </Switch>
         </div>
       </div>
